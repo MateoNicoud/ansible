@@ -37,6 +37,14 @@
       command: /usr/sbin/a2enconf php8.1-fpm
       notify: restart apache
 
+    - name: Create phpinfo file
+      copy:
+        dest: /var/www/html/phpinfo.php
+        content: |
+          <?php
+          phpinfo();
+          ?>
+
   handlers:
     - name: restart apache
       service:
