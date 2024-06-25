@@ -2,12 +2,12 @@
   become: yes
   tasks:
     - name: Update all packages
-      apt:
+      ansible.builtin.apt:
         update_cache: yes
         upgrade: yes
 
     - name: Install PHP-FPM
-      apt:
+      ansible.builtin.apt:
         name: php8.1-fpm
         state: present
 

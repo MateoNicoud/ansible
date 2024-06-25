@@ -2,12 +2,12 @@
   become: yes
   tasks:
     - name: Update all packages
-      apt:
+      ansible.builtin.apt:
         update_cache: yes
         upgrade: yes
 
     - name: Install Apache
-      apt:
+      ansible.builtin.apt:
         name: apache2
         state: present
 
