@@ -1,0 +1,44 @@
+- hosts: apache
+  become: yes
+  tasks:
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Start and enable Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Disable mpm_prefork module
+      command: /usr/sbin/a2dismod mpm_prefork
+      notify: restart apache
+
+    - name: Enable mpm_event module
+      command: /usr/sbin/a2enmod mpm_event
+      notify: restart apache
+
+    - name: Enable proxy_fcgi module
+      command: /usr/sbin/a2enmod proxy_fcgi
+      notify: restart apache
+
+    - name: Enable setenvif module
+      command: /usr/sbin/a2enmod setenvif
+      notify: restart apache
+
+    - name: Enable php8.1-fpm configuration
+      command: /usr/sbin/a2enconf php8.1-fpm
+      notify: restart apache
+
+  handlers:
+    - name: restart apache
+      service:
+        name: apache2
+        state: restarted

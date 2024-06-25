@@ -1,0 +1,18 @@
+- hosts: apache
+  become: yes
+  tasks:
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install PHP-FPM
+      apt:
+        name: php8.1-fpm
+        state: present
+
+    - name: Start and enable PHP-FPM
+      service:
+        name: php8.1-fpm
+        state: started
+        enabled: yes
